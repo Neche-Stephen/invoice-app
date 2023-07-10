@@ -1,0 +1,2 @@
+Validate selecting currency before adding item
+Validate currency conflict

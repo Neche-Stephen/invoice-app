@@ -1,0 +1,24 @@
+.sign-in-component{
+    color: rgb(43, 34, 34);
+}
+
+.sign-in-input:focus{
+    border-color: rgb(43, 34, 34) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0) !important;
+}
+.sign-in-btn{
+    background-color: #ff4d29;
+    border: 1px solid #ff4d29;
+}
+.sign-in-btn:hover{
+    background-color: #ff4d29;
+    border: 1px solid #ff4d29;
+}
+.sign-in-btn:active{
+    background-color: #ff4d29 !important;
+    border: 1px solid #ff4d29 !important;
+}
+.sign-in-btn:disabled{
+    background-color: #ff4d29 !important;
+    border: 1px solid #ff4d29 !important;
+}

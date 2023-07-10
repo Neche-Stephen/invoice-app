@@ -1,0 +1,66 @@
+.create-invoice-home{
+    color: black;
+}
+
+.create-invoice-home:hover{
+    color: #0d6efd;
+}
+
+.create-invoice-signout:hover{
+    color: #0d6efd;
+    cursor: pointer;
+}
+
+form-select option[disabled] {
+    color: #999999;
+  }
+
+
+@media (min-width: 992px) {
+  .create-invoice-tr:hover .create-invoice-hidden-div {
+    display: block !important;
+  }
+  
+.create-invoice-hidden-div {
+    display: none;
+    position: absolute;
+    cursor: pointer; 
+    box-shadow: none !important;
+  }
+}
+
+  .create-invoice-btn{
+    background-color: #ff4d29;
+    border: 1px solid #ff4d29;
+  }
+
+  .create-invoice-btn:hover{
+    background-color: #ff4d29;
+    border: 1px solid #ff4d29;
+  }
+
+  .create-invoice-btn:active{
+    background-color: #ff4d29 !important;
+    border: 1px solid #ff4d29 !important;
+  }
+
+  .create-invoice-btn:disabled{
+    background-color: #ff4d29 !important;
+    border: 1px solid #ff4d29 !important;
+  }
+
+  .create-invoice-btn.add-item-btn{
+    background-color: rgb(43, 34, 34);
+    border: 1px solid rgb(43, 34, 34);
+  }
+
+  .create-invoice-btn.add-item-btn:hover{
+    background-color: rgb(43, 34, 34);
+    border: 1px solid rgb(43, 34, 34);
+  }
+
+  .create-invoice-btn.add-item-btn:active{
+    background-color: rgb(43, 34, 34);
+    border: 1px solid rgb(43, 34, 34);
+  }
+  

@@ -1,0 +1,36 @@
+.invoice-table-navigation{
+    position: absolute;
+    padding: 10px;
+    top: 0%;
+}
+/* Aside */
+.invoice-table-aside{
+  background-color: rgb(43, 34, 34);
+  color: white;
+  min-height: 100vh;
+}
+
+.offcanvas-link-home{
+  position: relative;
+  bottom: 2px;
+}
+
+
+/* Pagination */
+.pagination{
+  --bs-pagination-active-bg:rgb(43, 34, 34);
+  --bs-pagination-active-border-color: rgb(43, 34, 34);
+  --bs-pagination-color: rgb(43, 34, 34);
+  --bs-pagination-hover-color: rgb(43, 34, 34);
+}
+
+@media screen and (max-width:767px) {
+  .invoice-table-navigation{
+    position: absolute;
+    padding: 10px;
+    display: flex;
+    top: 0%;
+    left: 40%;
+    
+}
+}

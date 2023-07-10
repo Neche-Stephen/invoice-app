@@ -1,0 +1,79 @@
+.dashboard-home{
+    color: black;
+}
+
+.dashboard-home:hover{
+    color: #0d6efd;
+}
+
+.dashboard-signout:hover{
+    color: unset;
+    cursor: pointer;
+}
+
+.text-muted {
+    --bs-text-opacity: 1;
+    color: red!important;
+}
+
+/* Navbar */
+.dashboard-navbar{
+    background-color: #ff4d29;
+    color: white;
+}
+.dashboard-navbar:hover{
+    color: white;
+}
+
+/* Aside */
+@media (max-width: 575px){
+.offcanvas-title{
+    font-size: 1.1rem;
+}
+}
+
+@media (max-width: 400px){
+    .offcanvas-title{
+        font-size: 0.8rem;
+    }
+    }
+
+.dashboard-aside{
+    background-color: rgb(43, 34, 34) !important;
+    color: white;
+    min-height: 100vh;
+}
+
+@media (max-width: 991px){
+    .dashboard-aside{
+       width: 55% !important;
+       padding: 10px;
+    }  
+}
+
+.offcanvas-link{
+    position: relative;
+    top: 1px;
+}
+.offcanvas-link-create-invoice{
+    position: relative;
+    top: 1px;
+}
+
+/* Main */
+
+.dashboard-widget-card{
+    /* border: 1px solid black; */
+    border-radius: 3%;
+}
+.dashboard-widget-card span{
+    text-align: center;
+    background: #0D47A1;
+}
+
+@media (max-width : 655px) {
+    .dashboard-widget-card h5{
+        font-size: 0.9rem;
+    }
+
+}

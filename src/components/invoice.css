@@ -1,0 +1,111 @@
+.invoice-component{
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.42857143;
+}
+
+.invoice-component-top-header{
+    /* padding: 10px 10px 0; */
+    text-align: center;
+    color: #fff;
+    letter-spacing: 20px;
+    font-weight: 700;
+    font-size: 15px;
+    background-color: #DA251A;
+    margin-bottom: 30px;
+}
+
+@media (max-width : 768px) {
+  .invoice-component-top-header{
+    padding: 0;
+    min-height: auto;
+}
+}
+
+/* Invoice container */
+
+.invoice-component-header{
+  line-height: .6;
+}
+
+@media (max-width : 768px) {
+  .invoice-component-header{
+    line-height: 1;
+  }
+}
+
+.invoice-component-header img {
+  max-width: 100%;
+}
+.bill-to{
+  line-height: .6;
+}
+  
+  /* Table */
+  .invoice-component table {
+    margin-top: 30px;
+    max-width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .invoice-component th {
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 10px;
+  }
+  
+  .invoice-component td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  /* Totals */
+  .totals {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .totals p {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  
+  .totals p:last-child {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+.invoice-component-signature{
+  text-transform: uppercase;
+  font: 13px Helvetica, Sans-Serif;
+  letter-spacing: 10px;
+  padding: 0 0 8px 0;
+  margin: 0 0 8px 0;
+}
+  
+  @media screen and (max-width: 768px) {
+    /* Invoice info */
+    .col {
+      margin-top: 20px;
+    }
+  
+    /* Table */
+    table {
+      margin-top: 20px;
+    }
+  
+    /* Totals */
+    .totals {
+      margin-top: 20px;
+    }
+  }
+
+  @media print {
+    .no-print {
+      display: none;
+    }
+  }
+ 
