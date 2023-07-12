@@ -328,15 +328,15 @@ export default function Dashboard() {
 
                   <Col xs = '6' sm = '4'  >
                     <div className='dashboard-widget-card shadow-lg p-2' style={{backgroundColor: "#28A745", color:"white"}}>
-                      <h5>Pending Invoices</h5>
-                      <p style={{fontWeight: 'bold', fontSize:"1.2em"}}>{numberInvoicesPending}</p>
+                      <h5>Completed Invoices</h5>
+                      <p style={{fontWeight: 'bold', fontSize:"1.2em"}}>{numberInvoicesCompleted}</p>
                     </div>
                   </Col>
 
                   <Col xs = '6' sm = '4'  >
-                    <div className='dashboard-widget-card shadow-lg p-2' style={{backgroundColor: "#DC3545", color:"white"}}>
-                      <h5>Completed Invoices</h5>
-                      <p style={{fontWeight: 'bold', fontSize:"1.2em"}}>{numberInvoicesCompleted}</p>
+                    <div className='dashboard-widget-card shadow-lg p-2' style={{backgroundColor: "#DC3545 ", color:"white"}}>
+                      <h5>Pending Invoices</h5>
+                      <p style={{fontWeight: 'bold', fontSize:"1.2em"}}>{numberInvoicesPending}</p>
                     </div>
                   </Col>
               </Row>

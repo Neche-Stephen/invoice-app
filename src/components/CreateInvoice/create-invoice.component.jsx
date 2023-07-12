@@ -23,11 +23,12 @@ const defaultCustomerDetails = {
     cName : '',
     cAddress: '',
     cEmail: '',
+    currency : '',
+    organisation : ''
   };
 const defaultItemDetails = {
     itemName : '',
     itemCost: '',
-    currency : '',
     itemQuantity: '',
     itemDescription : '',
     itemId : uuid()
@@ -54,9 +55,9 @@ export default function CreateInvoice() {
   const myRef = useRef();
   const actionRef = useRef();
   const [customerFields, setCustomerFields] = useState(defaultCustomerDetails);
-  const { cName, cAddress, cEmail} = customerFields;
+  const { cName, cAddress, cEmail, currency, organisation} = customerFields;
   const [itemFields, setItemFields] = useState(defaultItemDetails);
-  const { itemName, itemCost, itemQuantity, itemDescription, currency} = itemFields;
+  const { itemName, itemCost, itemQuantity, itemDescription} = itemFields;
   const uid = sessionStorage.getItem("uid");
   const [items, setItems] = useState(defaultItems);
   const [generatingInvoice, setGeneratingInvoice] = useState(false);
@@ -148,67 +149,101 @@ export default function CreateInvoice() {
     let amtPaid;
     let payStatus;
     if (paymentStatus === 'Paid'){
-      amtPaid = totalAmount()
-      payStatus = 'Paid'
+      amtPaid = totalAmount(); //Total Amount method is used here, because it calculates the total amount of items added to invoice
+      payStatus = 'Paid';
     }
     else if (paymentStatus == 'Pending'){
-      if(currency === ''){
-        amtPaid = 0
-        amtPaid = amtPaid.toLocaleString('en-US', {
-      style: 'NGN',
-      currency: currency,
-    });
-      }
-    else {
+    //   if(currency === ''){
+    //     amtPaid = 0
+    //     amtPaid = amtPaid.toLocaleString('en-US', {
+    //     style: 'currency',
+    //     currency: currency,
+    // });
+    //   }
+    // else {
+    //   amtPaid = 0
+    //   amtPaid = amtPaid.toLocaleString('en-US', {
+    //   style: 'currency',
+    //   currency: currency,
+    // });
+    // }
       amtPaid = 0
       amtPaid = amtPaid.toLocaleString('en-US', {
       style: 'currency',
       currency: currency,
     });
-    }
-      payStatus = 'Pending'
+    payStatus = 'Pending'
     }
 
     else if (paymentStatus === 'Partly_Paid'){
-      if(currency === ""){
-        amtPaid = parseFloat(amountPaid);
-        amtPaid = amtPaid.toLocaleString('en-US', {
-        style: 'NGN',
-        currency: currency,
-      });
-      }
-      else{
-        amtPaid = parseFloat(amountPaid);
+      // if(currency === ""){
+      //   amtPaid = parseFloat(amountPaid);
+      //   amtPaid = amtPaid.toLocaleString('en-US', {
+      //   style: 'currency',
+      //   currency: currency,
+      // });
+      // }
+      // else{
+      //   amtPaid = parseFloat(amountPaid);
+      //   amtPaid = amtPaid.toLocaleString('en-US', {
+      //   style: 'currency',
+      //   currency: currency,
+      // });
+      // }
+      amtPaid = parseFloat(amountPaid);
         amtPaid = amtPaid.toLocaleString('en-US', {
         style: 'currency',
         currency: currency,
       });
-      }
       payStatus = 'Partly_Paid'
     }
-    else if (paymentStatus === ''){
-      if (currency === ""){
-        amtPaid = 0;
-        amtPaid = amtPaid.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'NGN',
-      });
-      }
-      else {
-        amtPaid = 0;
-        amtPaid = amtPaid.toLocaleString('en-US', {
-        style: 'currency',
-        currency: currency,
-      });
-      }
+    // else if (paymentStatus === ''){
+    //   if (currency === ""){
+    //     amtPaid = 0;
+    //     amtPaid = amtPaid.toLocaleString('en-US', {
+    //     style: 'currency',
+    //     currency: 'NGN',
+    //   });
+    //   }
+    //   else {
+    //     amtPaid = 0;
+    //     amtPaid = amtPaid.toLocaleString('en-US', {
+    //     style: 'currency',
+    //     currency: currency,
+    //   });
+    //   }
 
-      payStatus = 'Pending'
-    }
+    //   payStatus = 'Pending'
+    // }
     const checkInternetConnection = async () => {
       const invoiceCollectionRef = collection(db, 'invoice');
       try {
         const snapshot = await getCountFromServer(invoiceCollectionRef);
-        setInternet(true)
+          try{
+            //Add Invoice and Item to an Invoice collection and item subcollection
+          let invoiceDocRef;
+         try{
+          invoiceDocRef = await createInvoiceDocumentFromAuth(uid, customerFields, items, invoiceId, amtPaid, payStatus, organisation);
+         }catch(error){
+            console.log(error, error.message);
+             }
+          // Invoice Document and add to sessionStorage
+          const documentSnapshot = await getDoc(invoiceDocRef);
+          const documentData = documentSnapshot.data();
+          const documentDataString = JSON.stringify(documentData);
+          sessionStorage.setItem("invoiceData", documentDataString);
+          }catch(error){
+              console.log(error)
+          }
+          const itemsString = JSON.stringify(items);
+          sessionStorage.setItem('items', itemsString)
+          setGeneratingInvoice(false);
+          resetAll();
+          window.open('/invoice-app/view-invoice', '_blank');
+          setShowItemDiv(false);
+          setShowCustomerDiv(true);
+          setIsDisabled(false);
+      
       }catch(error){
         if (error = "FirebaseError: [code=unavailable]: Connection failed."){
           setGeneratingInvoice(false);
@@ -225,37 +260,6 @@ export default function CreateInvoice() {
     };
     
     checkInternetConnection();
-    if (internet){
-      try{
-        //Add Invoice and Item to an Invoice collection and item subcollection
-      let invoiceDocRef;
-      console.log('here')
-     try{
-      invoiceDocRef = await createInvoiceDocumentFromAuth(uid, customerFields, items, invoiceId, amtPaid, payStatus);
-      console.log('here')
-     }catch(error){
-        console.log(error, error.message);
-         }
-      // Invoice Document and add to sessionStorage
-      const documentSnapshot = await getDoc(invoiceDocRef);
-      const documentData = documentSnapshot.data();
-      const documentDataString = JSON.stringify(documentData);
-      sessionStorage.setItem("invoiceData", documentDataString);
-      }catch(error){
-          console.log(error)
-      }
-      const itemsString = JSON.stringify(items);
-      sessionStorage.setItem('items', itemsString)
-      setGeneratingInvoice(false);
-      resetAll();
-      window.open('/invoice-app/view-invoice', '_blank');
-      setShowItemDiv(false);
-      setShowCustomerDiv(true);
-      setIsDisabled(false);
-    }
-    else{
-      return
-    }
   };
 
   const totalAmount = ()=>{
@@ -354,6 +358,18 @@ export default function CreateInvoice() {
             <Form.Group className="mb-3" controlId="cAddress">
               <Form.Control type="text" name="cAddress" placeholder="Customer Address" value = {cAddress} onChange={handleChangeCustomers} />
             </Form.Group>
+            <Form.Group controlId="currency">
+              <select
+                required
+                className="form-select"
+                name="organisation"
+                value={organisation}
+                onChange={handleChangeCustomers} >
+                  <option className="text-gray" value="">Select Organisation</option>
+                  <option value="RAD5_TechHub">RAD5 TechHub</option>
+                  <option value="RAD5_Academy">RAD5 Academy</option>
+                </select>     
+            </Form.Group>
           </Col>
           <Col xs = 'auto' md = '4'>
             <Form.Group className="mb-3" controlId="cEmail">
@@ -365,17 +381,17 @@ export default function CreateInvoice() {
                 className="form-select mb-3"
                 name="currency"
                 value={currency}
-                onChange={handleChangeItem} >
+                onChange={handleChangeCustomers} >
                   <option className="text-gray" value="">Select Currency</option>
                   <option value="NGN">Naira (₦)</option>
                   <option value="USD">Dollar ($)</option>
                   <option value="EUR">Euros (€)</option>
                   <option value="GBP">Pound (£)</option>
                 </select>     
-              </Form.Group>
+            </Form.Group>
 
           </Col>
-          <Col  ref={customerBtnRef}>
+          <Col>
               <Button type='submit' className='create-invoice-btn'>Go to Item Details <ChevronRight /> </Button>
           </Col>
         </Form>
@@ -461,7 +477,7 @@ export default function CreateInvoice() {
         </Table>
       </Col>
     </Row>
-    <Form onSubmit={handleInvoiceClick} className='row mb-5'>
+    <Form onSubmit={handleInvoiceClick} className='row mt-3 mt-sm-0 mb-5'>
       <Col xs = 'auto' md ='4' className='mb-2 mb-sm-0'>
         <Form.Group>
           <select required className="form-select" value={paymentStatus} onChange={handleSelectPayment}>

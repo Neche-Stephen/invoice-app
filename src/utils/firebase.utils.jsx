@@ -67,15 +67,11 @@ const checkIfInvoiceIdExists = async (invoiceCollectionRef, invoiceId) => {
 
   export const createInvoiceDocumentFromAuth = async (
     uid,
-    invoiceDetails = {}, items = [], invoiceId, amountPaid, paymentStatus
+    invoiceDetails = {}, items = [], invoiceId, amountPaid, paymentStatus, organisation
   ) => {
     try{
-      const { cName, cAddress, cEmail} = invoiceDetails;
-  console.log('here')
-
+      const { cName, cAddress, cEmail, organisation, currency} = invoiceDetails;
       const invoiceCollectionRef = collection(db, 'invoice');
-  console.log('here')
-
     try{
       invoiceId =  await checkIfInvoiceIdExists(invoiceCollectionRef, invoiceId);
     }catch(error){
@@ -83,9 +79,8 @@ const checkIfInvoiceIdExists = async (invoiceCollectionRef, invoiceId) => {
     }
     const createdAt = new Date();
       try {
-        // console.log('invoiceDetails:', invoiceDetails);
         const invoiceDocRef = await addDoc(invoiceCollectionRef, {
-          cName:cName.toLowerCase(), cAddress, cEmail, invoiceId, createdAt, Amount_Paid : amountPaid, Payment_Status:paymentStatus 
+          cName:cName.toLowerCase(), cAddress, cEmail, organisation, currency, invoiceId, createdAt, Amount_Paid : amountPaid, Payment_Status:paymentStatus
         });
       const itemSubCollectionRef = collection(invoiceDocRef, "items");
       const itemDocRef = await addDoc(itemSubCollectionRef, ...items );

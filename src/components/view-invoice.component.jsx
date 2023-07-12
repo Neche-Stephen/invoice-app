@@ -21,7 +21,7 @@ const defaultCustomerDetails = {
 const ViewInvoice = () => {
   const [loading, setLoading] = useState(true);
   const [customerDetails, setCustomerDetails] = useState(defaultCustomerDetails)
-  const { cName, cEmail, cAddress,invoiceId, Amount_Paid, Payment_Status} = customerDetails;
+  const { cName, cAddress,invoiceId, Amount_Paid, Payment_Status,currency, organisation} = customerDetails;
   const [ items, setItems] = useState([]);
   const id = sessionStorage.getItem('invoiceId', invoiceId)
   const [date, setDate] = useState('')
@@ -62,7 +62,6 @@ const ViewInvoice = () => {
   }
 
   const totalAmount = ()=>{
-    let currency = items[0].currency;
     let amt =  items.reduce((accumulator, currentElement) =>{
       return (accumulator + currentElement.itemQuantity * currentElement.itemCost)
       }, 0)
@@ -88,7 +87,6 @@ const ViewInvoice = () => {
   }
   
   const balanceDue = ()=>{
-    let currency = items[0].currency;
     let total = items.reduce((accumulator, currentElement) =>{
       return (accumulator + currentElement.itemQuantity * currentElement.itemCost)
       }, 0)
@@ -125,7 +123,7 @@ const ViewInvoice = () => {
         </Row>
         <Row className='invoice-component-header'>
             <Col lg="9" xs='8'>
-                <p>RAD5 Tech Hub Ltd.</p>
+                <p>{organisation === 'RAD5_TechHub' ? "RAD5 Tech Hub Ltd" : "RAD5 Academy"}</p>
                 <p>3rd Floor, 7 Factory Road by Eziukwu Road Aba</p>
                 <p>Abia State, Nigeria.</p>
                 <p>(+234) 81-881-55501 </p>
@@ -181,12 +179,12 @@ const ViewInvoice = () => {
                     const itemCost = parseFloat(item.itemCost);
                     const formattedItemCost = itemCost.toLocaleString('en-US', {
                       style: 'currency',
-                      currency: item.currency,
+                      currency: currency,
                     });
                     const itemTotalAmount = item.itemQuantity * item.itemCost
                     const formattedItemTotalAmount = itemTotalAmount.toLocaleString('en-US', {
                       style: 'currency',
-                      currency: item.currency,
+                      currency: currency,
                     });
                   return (
                     <tr key={uuid()}>
@@ -230,14 +228,25 @@ const ViewInvoice = () => {
       <Row className='justify-content-center'>
           <Col xs='auto'><h5 class="invoice-component-signature">Payment </h5></Col><hr />
       </Row>
+      {organisation === 'RAD5_TechHub' ?
       <Row className='justify-content-center'>
           <Col xs ='auto'>
-            {items[0].currency === "NGN" ?
+            {currency === "NGN" ?
             <p>This invoice is active for 2weeks. Payment should be made to RAD5 Tech Hub - 0251466366 - Guaranty Trust Bank Plc</p> 
-            : items[0].currency === "EUR" ? <p>This invoice is active for 2weeks. Payment should be made to RAD5 Tech Hub -  0791713104 - Guaranty Trust Bank Plc, Swift Code: GTBINGLA,
+            :currency === "EUR" ? <p>This invoice is active for 2weeks. Payment should be made to RAD5 Tech Hub -  0791713104 - Guaranty Trust Bank Plc, Swift Code: GTBINGLA,
             Branch Sort Code: 058235212</p> : <p>no account for this currency</p>  }
             </Col>
       </Row>
+      :
+      <Row className='justify-content-center'>
+          <Col xs ='auto'>
+            {currency === "NGN" ?
+            <p>This invoice is active for 2weeks. Payment should be made to RAD5 Academy - 0554945535 - Guaranty Trust Bank Plc</p> 
+            :currency === "EUR" ? <p>This invoice is active for 2weeks. Payment should be made to RAD5 Tech Hub -  0791713104 - Guaranty Trust Bank Plc, Swift Code: GTBINGLA,
+            Branch Sort Code: 058235212</p> : <p>no account for this currency</p>  }
+            </Col>
+      </Row>
+      }
     </Container>
   </div>
 };
